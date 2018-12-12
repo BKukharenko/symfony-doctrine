@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Constraints;
+
+
 
 class Post {
 
@@ -12,26 +15,31 @@ class Post {
 
   /**
    * @var \DateTime
+   * @Constraints\DateTime()
    */
   protected $createdAt;
 
   /**
    * @var \DateTime
+   * @Constraints\DateTime()
    */
   protected $updatedAt;
 
   /**
    * @var bool
+   * @Constraints\NotNull()
    */
   private $isPublished;
 
   /**
    * @var string
+   * @Constraints\NotBlank()
    */
   private $title;
 
   /**
    * @var string
+   * @Constraints\NotBlank()
    */
   private $body;
 
