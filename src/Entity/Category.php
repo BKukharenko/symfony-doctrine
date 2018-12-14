@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,6 +23,16 @@ class Category
      */
     private $name;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Post", inversedBy="categories")
+     */
+    private $post;
+
+    public function __construct()
+    {
+        $this->post = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -34,6 +46,32 @@ class Category
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPost(): Collection
+    {
+        return $this->post;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->post->contains($post)) {
+            $this->post[] = $post;
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): self
+    {
+        if ($this->post->contains($post)) {
+            $this->post->removeElement($post);
+        }
 
         return $this;
     }

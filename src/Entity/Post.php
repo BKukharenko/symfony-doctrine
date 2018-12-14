@@ -49,18 +49,19 @@ class Post
      */
     private $isPublished;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Category")
-     */
-    private $category;
-
   /**
    * @ORM\OneToMany(targetEntity="Comment", mappedBy="Post")
    */
     private $comments;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", mappedBy="post")
+     */
+    private $categories;
+
   public function __construct() {
     $this->comments = new ArrayCollection();
+    $this->categories = new ArrayCollection();
   }
 
     public function getId(): ?int
@@ -128,18 +129,6 @@ class Post
         return $this;
     }
 
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    public function setCategory($category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     public function getComments(): ?Collection
     {
         return $this->comments;
@@ -148,6 +137,34 @@ class Post
     public function setComments(?array $comments): self
     {
         $this->comments = $comments;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+            $category->addPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+            $category->removePost($this);
+        }
 
         return $this;
     }
