@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -19,11 +20,13 @@ class Comment
 
     /**
      * @ORM\Column(type="datetime")
+     * @Constraints\DateTime()
      */
     private $publishedAt;
 
     /**
      * @ORM\Column(type="text")
+     * @Constraints\NotBlank()
      */
     private $content;
 
