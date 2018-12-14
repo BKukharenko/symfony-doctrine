@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -11,46 +14,54 @@ class Post
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Constraints\NotBlank()
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Constraints\NotBlank()
      */
     private $body;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Constraints\DateTime()
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Constraints\DateTime()
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Constraints\NotNull()
      */
     private $isPublished;
 
     /**
-     * @ORM\Column(type="object")
+     * @ORM\ManyToMany(targetEntity="Category")
      */
     private $category;
 
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $comments = [];
+  /**
+   * @ORM\OneToMany(targetEntity="Comment", mappedBy="Post")
+   */
+    private $comments;
 
+  public function __construct() {
+    $this->comments = new ArrayCollection();
+  }
 
     public function getId(): ?int
     {
@@ -129,7 +140,7 @@ class Post
         return $this;
     }
 
-    public function getComments(): ?array
+    public function getComments(): ?Collection
     {
         return $this->comments;
     }
