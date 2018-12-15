@@ -38,6 +38,7 @@ class Post
     private $createdAt;
 
     /**
+     * @var \DateTime|null
      * @ORM\Column(type="datetime")
      * @Constraints\DateTime()
      */
@@ -60,6 +61,7 @@ class Post
     private $comments;
 
   public function __construct() {
+    $this->isPublished = true;
     $this->comments = new ArrayCollection();
     $this->categories = new ArrayCollection();
   }
@@ -132,7 +134,7 @@ class Post
     /**
      * @return Collection|Category[]
      */
-    public function getCategories(): Collection
+    public function getCategory(): Collection
     {
         return $this->categories;
     }
