@@ -10,11 +10,12 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-      $this->loadCategories($manager);
+        $this->loadCategories($manager);
     }
 
-    public function getCategories():array {
-    return [
+    public function getCategories():array
+    {
+      return [
       'All',
       'Animals',
       'Nature',
@@ -23,15 +24,15 @@ class AppFixtures extends Fixture
     ];
     }
 
-    private function loadCategories (ObjectManager $manager) {
+    private function loadCategories(ObjectManager $manager)
+    {
+        foreach ($this->getCategories() as $index => $name) {
+            $category = new Category();
+            $category->setName($name);
+            $manager->persist($category);
+            $this->addReference('category-'.$name, $category);
+        }
 
-      foreach ($this->getCategories() as $index => $name) {
-        $category = new Category();
-        $category->setName($name);
-        $manager->persist($category);
-        $this->addReference('category-'.$name,$category);
-      }
-
-      $manager->flush();
+        $manager->flush();
     }
 }

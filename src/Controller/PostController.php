@@ -15,45 +15,44 @@ class PostController extends AbstractController
      */
     public function createPost(Request $request)
     {
+        $post = new Post();
+        $post->setCreatedAt(new \DateTime());
 
-      $post = new Post();
-      $post->setCreatedAt(new \DateTime());
-
-      $form = $this->createForm(PostType::class, $post, [
+        $form = $this->createForm(PostType::class, $post, [
         'action' => $this->generateUrl('create-post')
       ]);
 
-      $form->handleRequest($request);
+        $form->handleRequest($request);
 
-      if ($form->isSubmitted() && $form->isValid()) {
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($post);
-        $em->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
 
-        $postLink = $this->generateUrl('show_post', [
+          $postLink = $this->generateUrl('show_post', [
           'id' => $post->getId()
         ]);
 
 
-        return $this->redirect($postLink);
-      }
+            return $this->redirect($postLink);
+        }
 
-      return $this->render('post/create-post.html.twig', [
+        return $this->render('post/create-post.html.twig', [
         'form' => $form->createView(),
       ]);
     }
 
-  /**
-   * @Route("/post/{id}", name="show_post", requirements={"page"="\d+"})
-   */
-  public function showPost($id) {
+    /**
+     * @Route("/post/{id}", name="show_post", requirements={"page"="\d+"})
+     */
+    public function showPost($id)
+    {
+        $em = $this->getDoctrine()->getManager();
 
-    $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository(Post::class)->find($id);
+        $categories = $post->getCategory();
 
-    $post = $em->getRepository(Post::class)->find($id);
-    $categories = $post->getCategory();
-
-    return $this->render('post/show-post.html.twig', [
+      return $this->render('post/show-post.html.twig', [
       'post' => $post,
       'categories' => $categories
     ]);

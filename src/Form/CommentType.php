@@ -14,15 +14,15 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content', TextareaType::class)
-            ->add('Add Comment', SubmitType::class)
+        ->add('content', TextareaType::class)
+        ->add('Add Comment', SubmitType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Comment::class,
+        'data_class' => Comment::class,
         ]);
     }
 }

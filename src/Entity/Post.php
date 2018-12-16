@@ -61,11 +61,12 @@ class Post
      */
     private $comments;
 
-  public function __construct() {
-    $this->isPublished = true;
-    $this->comments = new ArrayCollection();
-    $this->categories = new ArrayCollection();
-  }
+    public function __construct()
+    {
+        $this->isPublished = true;
+        $this->comments = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
