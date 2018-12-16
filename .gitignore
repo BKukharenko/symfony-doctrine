@@ -5,6 +5,8 @@
 /public/bundles/
 /var/
 /vendor/
+.env
+.php_cs.cache
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
