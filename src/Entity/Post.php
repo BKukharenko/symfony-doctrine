@@ -51,7 +51,8 @@ class Post
     private $isPublished;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Category", mappedBy="post")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $categories;
 
